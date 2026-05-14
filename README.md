@@ -1,16 +1,21 @@
 # 🧪 Projet d’Automatisation de Tests du site SauceDemo avec Python Selenium
 
 <p align="center">
-  <img src="logo.jpg" width="1000"/>
-  <a href="https://www.magnific.com/">📸 Source : Magnific</a>
+  <img src="logo.jpg" width="500"/>
 </p>
 
-![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
-![Pytest](https://img.shields.io/badge/Pytest-Testing-0A9EDC?logo=pytest&logoColor=white)
-![Selenium](https://img.shields.io/badge/Selenium-Automation-43B02A?logo=selenium&logoColor=white)
-![Allure](https://img.shields.io/badge/Allure-Reporting-FF6F00?logo=allure&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-WIP-orange)
+<p align="center">
+  📸 Source : <a href="https://www.magnific.com/">Magnific</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Pytest-Testing-0A9EDC?logo=pytest&logoColor=white" />
+  <img src="https://img.shields.io/badge/Selenium-Automation-43B02A?logo=selenium&logoColor=white" />
+  <img src="https://img.shields.io/badge/Allure-Reporting-FF6F00?logo=allure&logoColor=white" />
+  <img src="https://img.shields.io/badge/license-MIT-green" />
+  <img src="https://img.shields.io/badge/status-WIP-orange" />
+</p>
 
 ---
 
