@@ -1,12 +1,35 @@
 [project]
 name = "saucedemo-test-automation"
 version = "0.1.0"
-description = "Add your description here"
+description = "Framework d'automatisation de tests pour l'application SauceDemo avec Selenium et Pytest."
 readme = "README.md"
 requires-python = ">=3.11"
+
 dependencies = [
     "allure-pytest>=2.16.0",
     "pytest>=9.0.3",
     "selenium>=4.44.0",
     "webdriver-manager>=4.0.2",
+]
+
+# =========================
+# Pytest configuration
+# =========================
+[tool.pytest.ini_options]
+
+pythonpath = ["."]
+
+testpaths = [
+    "tests"
+]
+
+addopts = "-v"
+
+markers = [
+    "smoke: Tests de fumée pour vérifier les fonctionnalités critiques",
+    "e2e: Tests de bout en bout pour valider les scénarios complets",
+    "login: Tests liés à la fonctionnalité de connexion",
+    "inventory: Tests liés à la fonctionnalité d'inventaire",
+    "cart: Tests liés à la fonctionnalité du panier",
+    "checkout: Tests liés à la fonctionnalité de paiement"
 ]
