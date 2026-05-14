@@ -1,0 +1,12 @@
+[project]
+name = "saucedemo-test-automation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "allure-pytest>=2.16.0",
+    "pytest>=9.0.3",
+    "selenium>=4.44.0",
+    "webdriver-manager>=4.0.2",
+]
