@@ -1,62 +1,30 @@
 import logging
 import os
-from datetime import datetime
+from core.utils import get_current_timestamp
 
+# --- Dossier de logs ---
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
 
-def get_logger(test_name: str) -> logging.Logger:
+# --- Nom du fichier de log avec timestamp ---
+timestamp = get_current_timestamp()
+log_file = os.path.join(LOG_DIR, f"execution_{timestamp}.log")
 
-    # =========================
-    # Créer le dossier logs
-    # =========================
-    os.makedirs("logs", exist_ok=True)
+# --- Création du logger ---
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
-    # =========================
-    # Date/heure
-    # =========================
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+# Évite d'ajouter plusieurs handlers si le module est rechargé
+if not logger.handlers:
 
-    # =========================
-    # Nom du fichier log
-    # =========================
-    log_file = f"logs/{test_name}_{timestamp}.log"
+    # Handler fichier
+    file_handler = logging.FileHandler(log_file, encoding="utf-8")
+    file_handler.setLevel(logging.INFO)
 
-    # =========================
-    # Logger
-    # =========================
-    logger = logging.getLogger(test_name)
-
-    # Évite les doublons
-    if logger.hasHandlers():
-        return logger
-
-    logger.setLevel(logging.INFO)
-
-    # =========================
-    # Format
-    # =========================
+    # Format des logs
     formatter = logging.Formatter(
-        "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
-    )
-
-    # =========================
-    # Console
-    # =========================
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
-
-    # =========================
-    # Fichier
-    # =========================
-    file_handler = logging.FileHandler(
-        log_file,
-        encoding="utf-8"
+        "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
     )
     file_handler.setFormatter(formatter)
 
-    # =========================
-    # Ajouter handlers
-    # =========================
-    logger.addHandler(console_handler)
     logger.addHandler(file_handler)
-
-    return logger
