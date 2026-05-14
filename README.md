@@ -52,9 +52,6 @@ saucedemo-test-automation
 │   ├── logger.py         # Système de logs
 │   └── utils.py          # Fonctions utilitaires
 │
-├── fixtures/             # Fixtures Pytest
-│   └── browser_fixture.py
-│
 ├── pages/                # Page Object Model
 │   ├── base_page.py
 │   ├── login_page.py
@@ -73,6 +70,7 @@ saucedemo-test-automation
 │   └── test_checkout.py
 │
 ├── .env                  # Variables d’environnement (non versionné)
+├── conftest.py           # Fixtures pytest globales et configuration des tests
 ├── pyproject.toml        # Dépendances du projet
 ├── uv.lock               # Lock des dépendances
 └── README.md
@@ -167,7 +165,7 @@ uv run pytest
 
 ```bash
 # Lancer les tests avec rapport Allure
-uv run pytest --alluredir=allure-results
+uv run pytest --alluredir=reports/allure-results
 
 # Ouvrir le rapport
 allure serve allure-results
@@ -212,19 +210,28 @@ test_cart.py::test_add_item FAILED
 ## 🧪 Couverture des tests
 
 ### 🔐 Authentification
-- Login valide
-- Login invalide
-- Utilisateur bloqué
+- Connexion avec un utilisateur valide
+- Connexion avec un utilisateur bloqué
+- Connexion avec un mot de passe incorrect
+- Connexion avec des champs vides
+- Validation des messages d’erreur
 
 ### 📦 Inventaire
-- Affichage des produits
+- Affichage de la liste des produits
+- Vérification des informations produit (nom, prix, description)
+- Tri des produits (prix croissant/décroissant, nom)
 
 ### 🛒 Panier
-- Ajout / suppression d’articles
+- Ajout d’un ou plusieurs articles au panier
+- Suppression d’un article du panier
+- Vérification du nombre d’articles
+- Vérification du total du panier
 
 ### 💳 Checkout
-- Validation du formulaire
+- Validation du formulaire de commande
+- Vérification des messages d’erreur de validation
 - Processus de commande complet
+- Vérification du récapitulatif de commande
 
 ---
 
