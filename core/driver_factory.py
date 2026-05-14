@@ -2,7 +2,8 @@ from selenium import webdriver
 from config.settings import HEADLESS, BROWSER
 
 def create_driver():
-
+    """Crée une instance de WebDriver."""
+    
     if BROWSER == "chrome":
         options = webdriver.ChromeOptions()
 
