@@ -12,7 +12,7 @@ def driver():
 
     yield driver
 
-    logger.info("🛑 Fermeture du navigateur")
+    logger.info("🛑 Fermeture du navigateur\n")
     driver.quit()
             
 @pytest.hookimpl(hookwrapper=True)
@@ -30,13 +30,13 @@ def pytest_runtest_makereport(item, call):
         return
 
     if result.failed:
-        logger.error(f"❌ TEST FAILED : {item.name}")
+        logger.error(f"❌ TEST ECHOUE : {item.name}")
 
         driver = item.funcargs.get("driver")
 
         if driver:
             try:
                 path = take_screenshot(driver, f"FAILED_{item.name}")
-                logger.error(f"📸 Screenshot saved: {path}")
+                logger.error(f"📸 Screenshot sauvegardée: {path}")
             except Exception as e:
-                logger.error(f"⚠️ Screenshot failed: {e}")
+                logger.error(f"⚠️ Screenshot échouée: {e}")
