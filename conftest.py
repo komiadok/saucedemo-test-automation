@@ -4,9 +4,9 @@ from core.utils import take_screenshot
 from core.logger import logger
 
 @pytest.fixture
-def browser():
+def driver():
     """Fixture principale Selenium WebDriver."""
-    logger.info("🌐 Initialisation du navigateur")
+    logger.info("🧭 Initialisation du navigateur")
 
     driver = create_driver()
 
@@ -32,7 +32,7 @@ def pytest_runtest_makereport(item, call):
     if result.failed:
         logger.error(f"❌ TEST FAILED : {item.name}")
 
-        driver = item.funcargs.get("browser")
+        driver = item.funcargs.get("driver")
 
         if driver:
             try:
