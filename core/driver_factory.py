@@ -4,24 +4,24 @@ from config.settings import HEADLESS, BROWSER
 def create_driver():
     """Crée une instance de WebDriver."""
     
-    if BROWSER == "chrome":
-        options = webdriver.ChromeOptions()
+    if BROWSER != "chrome":
+        raise ValueError(f"Browser non supporté : {BROWSER}")
+    
+    options = webdriver.ChromeOptions()
 
-        if HEADLESS:
-            options.add_argument("--headless=new")
+    if HEADLESS:
+        options.add_argument("--headless=new")
+    
+    options.add_argument("--start-maximized")
+    options.add_argument("--disable-notifications")
+    options.add_argument("--disable-popup-blocking")
 
-        options.add_argument("--start-maximized")
-        options.add_argument("--disable-notifications")
-        options.add_argument("--disable-popup-blocking")
+    prefs = {
+        "profile.password_manager_leak_detection": False,
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    }
 
-        prefs = {
-            "profile.password_manager_leak_detection": False,
-            "credentials_enable_service": False,
-            "profile.password_manager_enabled": False
-        }
+    options.add_experimental_option("prefs", prefs)
 
-        options.add_experimental_option("prefs", prefs)
-
-        driver = webdriver.Chrome(options=options)
-
-    return driver
+    return webdriver.Chrome(options=options)
