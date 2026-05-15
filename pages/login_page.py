@@ -35,5 +35,9 @@ class LoginPage(BasePage):
     
     def get_error_message(self):
         """Retourne le message d'erreur affiché après un login invalide."""
-        logger.info("📝 Récupération du message d'erreur")
         return self.get_text(self.ERROR_MESSAGE)
+    
+    def is_error_message_valid(self, expected_message):
+        """Vérifie que le message d'erreur affiché correspond au message attendu."""
+        return self.is_text_present(self.ERROR_MESSAGE, expected_message)
+    
