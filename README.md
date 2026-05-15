@@ -168,7 +168,7 @@ uv run pytest
 uv run pytest --alluredir=reports/allure-results
 
 # Ouvrir le rapport
-allure serve allure-results
+allure serve reports/allure-results
 ```
 
 ---
