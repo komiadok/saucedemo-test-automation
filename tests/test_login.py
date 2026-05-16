@@ -28,9 +28,11 @@ def test_login_success(driver):
 
     with allure.step("Vérifier que la connexion a réussi"):
         assert login_page.is_login_successful()
+        logger.info(f"➜ Redirection réussie vers la page d'inventaire après connexion pour {username}")
         take_screenshot(driver, f"Login_Success_{username}")
 
     logger.info(f"✅ Test de connexion réussi pour l'utilisateur : {username}")
+
 
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
@@ -65,6 +67,7 @@ def test_login_failure_locked_user(driver):
 
     logger.info(f"✅ Test de connexion échoué pour l'utilisateur bloqué : {username}")
     
+    
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
 @pytest.mark.login
@@ -97,6 +100,7 @@ def test_login_failure_invalid_password(driver):
         )
 
     logger.info(f"✅ Test de connexion avec mot de passe invalide échoué pour l'utilisateur : {username}")
+    
     
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
