@@ -1,4 +1,5 @@
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
 from config.settings import BASE_URL, DEFAULT_TIMEOUT
@@ -42,6 +43,12 @@ class BasePage:
         element = self.find_element_visible(locator)
         element.clear()
         element.send_keys(text)
+        
+    def select_dropdown_by_visible_text(self, locator, text):
+        """Sélectionne une option dans un dropdown par son texte visible."""
+        select_element = self.find_element_visible(locator)
+        select = Select(select_element)
+        select.select_by_visible_text(text)
     
     def is_element_visible(self, locator):
         """Vérifie si un élément est visible sur la page."""
@@ -78,3 +85,33 @@ class BasePage:
     def get_text(self, locator):
         """Récupère le texte d'un élément trouvé par le localisateur."""
         return self.find_element_visible(locator).text
+    
+    def get_elements_count(self, locator):
+        """Récupère le nombre d'éléments trouvés par le localisateur."""
+        return len(self.find_elements_visible(locator))
+    
+    def parse_price(self, price_text, currency_symbol="$"):
+        """Parse un texte de prix et retourne sa valeur numérique."""
+        
+        if not price_text:
+            raise ValueError("Prix vide ou introuvable")
+
+        try:
+            return float(price_text.replace(currency_symbol, "").strip())
+        except ValueError:
+            raise ValueError(f"Impossible de convertir le prix : {price_text}")
+        
+    def extract_data(self, elements, name_locator, price_locator, currency="$"):
+        """Extrait les données d'une liste d'éléments d'inventaire, en récupérant le nom et le prix de chaque produit."""
+        data = []
+        for item in elements:
+            name = item.find_element(*name_locator).text
+            price_text = item.find_element(*price_locator).text
+            price = self.parse_price(price_text, currency)
+
+            data.append({
+                "name": name,
+                "price": price
+            })
+        return data
+        
