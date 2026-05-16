@@ -12,7 +12,7 @@ def create_driver():
     if HEADLESS:
         options.add_argument("--headless=new")
     
-    options.add_argument("--start-maximized")
+    options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-notifications")
     options.add_argument("--disable-popup-blocking")
 
