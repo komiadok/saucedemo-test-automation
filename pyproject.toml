@@ -30,7 +30,6 @@ markers = [
     "e2e: Tests de bout en bout pour valider les scénarios complets",
     "login: Tests liés à la fonctionnalité de connexion",
     "inventory: Tests liés à la fonctionnalité d'inventaire",
-    "logout: Test lié à la fonctionnalité de déconnexion",
     "cart: Tests liés à la fonctionnalité du panier",
     "checkout: Tests liés à la fonctionnalité de paiement"
 ]
