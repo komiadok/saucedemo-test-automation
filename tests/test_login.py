@@ -1,136 +1,122 @@
-import pytest
+# ==============================
+# =========== LIBRARY ==========
+# ==============================
+
 import allure
-
-from core.logger import logger
+import pytest
 from core.utils import get_credentials, take_screenshot
-from pages.login_page import LoginPage
+from core.logger import logger
+
+
+# ==============================
+# ====== TEST VALID USER =======
+# ==============================
 
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
 @pytest.mark.login
-def test_login_success(driver):
+def test_login_valid_user(login_page, driver):
+    """Vérifie qu'un utilisateur avec des identifiants valides peut se connecter."""
     
-    login_page = LoginPage(driver)
-    
-    valid_user = get_credentials("valid_user")
-    username = valid_user["username"]
-    password = valid_user["password"]
-    
-    allure.dynamic.title(f"Connexion réussie pour {username}")
-    
-    logger.info(f"🚀 Début test de connexion pour {username}")
+    creds = get_credentials("valid_user")
+
+    allure.dynamic.title(f"Connexion avec identifiants valides : '{creds['username']}'")
     
     with allure.step("Ouvrir la page de connexion"):
         login_page.open_login_page()
-
+    
     with allure.step("Saisir les identifiants et se connecter"):
-        login_page.login(username, password)
+        login_page.login(creds["username"], creds["password"])
+        
+    with allure.step(f"Vérifier que '{creds['username']}' est connecté"):
+        assert login_page.wait_inventory_page(), "Connexion K.O. Page inventaire introuvable."
+    take_screenshot(driver, f"Login_Success_{creds['username']}")
 
-    with allure.step("Vérifier que la connexion a réussi"):
-        assert login_page.is_login_successful()
-        logger.info(f"➜ Redirection réussie vers la page d'inventaire après connexion pour {username}")
-        take_screenshot(driver, f"Login_Success_{username}")
 
-    logger.info(f"✅ Test de connexion réussi pour l'utilisateur : {username}")
+# ==============================
+# ====== TEST LOCKED USER ======
+# ==============================
 
 
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
 @pytest.mark.login
-def test_login_failure_locked_user(driver):
+def test_login_locked_user(login_page, driver):
+    """Vérifie qu'un utilisateur bloqué ne peut pas se connecter."""
     
-    login_page = LoginPage(driver)
-    
-    locked_user = get_credentials("locked_user")
-    username = locked_user["username"]
-    password = locked_user["password"]
-    
-    allure.dynamic.title(f"Connexion échouée pour {username}")
-    
-    logger.info(f"🚀 Début test de connexion pour {username}")
+    creds = get_credentials("locked_user")
+
+    allure.dynamic.title(f"Connexion avec utilisateur bloqué : '{creds['username']}'")
     
     with allure.step("Ouvrir la page de connexion"):
         login_page.open_login_page()
-
+    
     with allure.step("Saisir les identifiants et tenter de se connecter"):
-        login_page.login(username, password)
-
-    with allure.step("Vérifier que le message d'erreur est affiché et correct"):
-        assert login_page.is_error_message_displayed()
-        error_message = login_page.get_error_message()
-        logger.info(f"📩 Message d'erreur affiché : {error_message}")
-        
-        expected_message = "Sorry, this user has been locked out."
-        assert login_page.is_error_message_valid(expected_message), (
-            f"Message d'erreur incorrect.\nAttendu : {expected_message}\nObtenu : {error_message}"
+        login_page.login(creds["username"], creds["password"])
+    
+    error_message = "Sorry, this user has been locked out."
+    with allure.step(f"Obtenir le message : {error_message}"):
+        assert error_message in login_page.get_error_message(), (
+            f"Message d'erreur incorrect.\n"
+            f"Obtenu: {login_page.get_error_message()}\n"
+            f"Attendu: {error_message}"
         )
+    
+    
+# ==============================
+# = TEST INVALID PASSWORD USER =
+# ==============================
+    
 
-    logger.info(f"✅ Test de connexion échoué pour l'utilisateur bloqué : {username}")
-    
-    
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
 @pytest.mark.login
-def test_login_failure_invalid_password(driver): 
+def test_login_invalid_password(login_page, driver):
+    """Vérifie qu'un utilisateur qui saisit un mot de passe incorrect ne peut pas se connecter."""
     
-    login_page = LoginPage(driver)
-    
-    invalid_user = get_credentials("invalid_password_user")
-    username = invalid_user["username"]
-    password = invalid_user["password"]
-    
-    allure.dynamic.title(f"Connexion échouée pour {username}")
-    
-    logger.info(f"🚀 Début test de connexion pour {username}")
+    creds = get_credentials("invalid_password_user")
+
+    allure.dynamic.title(f"Connexion avec mot de passe incorrect : '{creds['username']}'")
     
     with allure.step("Ouvrir la page de connexion"):
         login_page.open_login_page()
-
+    
     with allure.step("Saisir les identifiants et tenter de se connecter"):
-        login_page.login(username, password)
-
-    with allure.step("Vérifier que le message d'erreur est affiché et correct"):
-        assert login_page.is_error_message_displayed()
-        error_message = login_page.get_error_message()
-        logger.info(f"📩 Message d'erreur affiché : {error_message}")
-        
-        expected_message = "Username and password do not match any user"
-        assert login_page.is_error_message_valid(expected_message), (
-            f"Message d'erreur incorrect.\nAttendu : {expected_message}\nObtenu : {error_message}"
+        login_page.login(creds["username"], creds["password"])
+    
+    error_message = "Username and password do not match any user"
+    with allure.step(f"Obtenir le message : {error_message}"):
+        assert error_message in login_page.get_error_message(), (
+            f"Message d'erreur incorrect.\n"
+            f"Obtenu: {login_page.get_error_message()}\n"
+            f"Attendu: {error_message}"
         )
+    
 
-    logger.info(f"✅ Test de connexion avec mot de passe invalide échoué pour l'utilisateur : {username}")
-    
-    
+# ==============================
+# ====== TEST EMPTY USER =======
+# ==============================
+
+
+@allure.title("Connexion avec champs username et password vides")
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
 @pytest.mark.login
-def test_login_failure_empty_credentials(driver): 
+def test_login_empty_fields(login_page, driver):
+    """Vérifie qu'un utilisateur qui n'entre pas les informations de connexion ne peut pas se connecter."""
     
-    login_page = LoginPage(driver)
-    
-    empty_user = get_credentials("empty_user")
-    username = empty_user["username"]
-    password = empty_user["password"]
-    
-    allure.title("Connexion échouée avec des champs vides")
-    
-    logger.info(f"🚀 Début test de connexion pour {username}")
+    creds = get_credentials("empty_user")
     
     with allure.step("Ouvrir la page de connexion"):
         login_page.open_login_page()
-
-    with allure.step("Laisser les champs 'Username' et 'Password' vides et tenter de se connecter"):
-        login_page.login(username, password)
-
-    with allure.step("Vérifier que le message d'erreur est affiché et correct"):
-        assert login_page.is_error_message_displayed()
-        error_message = login_page.get_error_message()
-        logger.info(f"📩 Message d'erreur affiché : {error_message}")
-        
-        expected_message = "Username is required"
-        assert login_page.is_error_message_valid(expected_message), (
-            f"Message d'erreur incorrect.\nAttendu : {expected_message}\nObtenu : {error_message}"
+    
+    with allure.step("Laisser Username et Password vides et tenter de se connecter"):
+        login_page.login(creds["username"], creds["password"])
+    
+    error_message = "Username is required"
+    with allure.step(f"Obtenir le message : {error_message}"):
+        assert error_message in login_page.get_error_message(), (
+            f"Message d'erreur incorrect.\n"
+            f"Obtenu: {login_page.get_error_message()}\n"
+            f"Attendu: {error_message}"
         )
-
-    logger.info("✅ Test de connexion avec identifiants vides échoué.")
