@@ -90,7 +90,7 @@ class InventoryPage(BasePage):
     
     def wait_item_elements_visible(self):
         """
-        Attend que le nom, le prix et le bouton 'Add to cart' soient visibles pour chaque produit.
+        Vérifie que le nom, le prix et le bouton 'Add to cart' soient visibles pour chaque produit.
         """
         return [
             item.find_element(*self.ITEM_NAME).is_displayed() and
