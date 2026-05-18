@@ -44,35 +44,38 @@ L’objectif est de simuler un **framework de test professionnel maintenable et 
 ```bash
 saucedemo-test-automation
 │
-├── config/               # Configuration globale
+├── components/               # Composants UI réutilisables partagés entre plusieurs pages
+│   └── header_component.py   # Gestion du header/navigation commune de l’application
+│
+├── config/                   # Configuration globale
 │   └── settings.py
 │
-├── core/                 # Composants centraux du framework
-│   ├── driver_factory.py # Initialisation du WebDriver
-│   ├── logger.py         # Système de logs
-│   └── utils.py          # Fonctions utilitaires
+├── core/                     # Composants centraux du framework
+│   ├── driver_factory.py     # Initialisation du WebDriver
+│   ├── logger.py             # Système de logs
+│   └── utils.py              # Fonctions utilitaires
 │
-├── pages/                # Page Object Model
+├── pages/                    # Page Object Model
 │   ├── base_page.py
 │   ├── login_page.py
 │   ├── inventory_page.py
 │   ├── cart_page.py
 │   └── checkout_page.py
 │
-├── testdata/             # Données de test
+├── testdata/                  # Données de test
 │   ├── credentials.json
 │   └── checkout.json
 │
-├── tests/                # Suites de tests
+├── tests/                     # Suites de tests
 │   ├── test_login.py
 │   ├── test_inventory.py
 │   ├── test_cart.py
 │   └── test_checkout.py
 │
-├── .env                  # Variables d’environnement (non versionné)
-├── conftest.py           # Fixtures pytest globales et configuration des tests
-├── pyproject.toml        # Dépendances du projet
-├── uv.lock               # Lock des dépendances
+├── .env                       # Variables d’environnement (non versionné)
+├── conftest.py                # Fixtures pytest globales et configuration des tests
+├── pyproject.toml             # Dépendances du projet
+├── uv.lock                    # Lock des dépendances
 └── README.md
 ```
 
@@ -215,6 +218,7 @@ test_cart.py::test_add_item FAILED
 - Connexion avec un mot de passe incorrect
 - Connexion avec des champs vides
 - Validation des messages d’erreur
+- Déconnexion
 
 ### 📦 Inventaire
 - Affichage de la liste des produits
@@ -225,13 +229,12 @@ test_cart.py::test_add_item FAILED
 - Ajout d’un ou plusieurs articles au panier
 - Suppression d’un article du panier
 - Vérification du nombre d’articles
-- Vérification du total du panier
 
 ### 💳 Checkout
 - Validation du formulaire de commande
+- Vérification du récapitulatif de commande
 - Vérification des messages d’erreur de validation
 - Processus de commande complet
-- Vérification du récapitulatif de commande
 
 ---
 
