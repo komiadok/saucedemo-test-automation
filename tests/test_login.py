@@ -1,16 +1,15 @@
-# ==============================
-# =========== LIBRARY ==========
-# ==============================
+# ===========================================
+# ================= LIBRARY =================
+# ===========================================
 
 import allure
 import pytest
 from core.utils import get_credentials, take_screenshot
-from core.logger import logger
 
 
-# ==============================
-# ====== TEST VALID USER =======
-# ==============================
+# ===========================================
+# ============= TEST VALID USER =============
+# ===========================================
 
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.smoke
@@ -33,9 +32,9 @@ def test_login_valid_user(login_page, driver):
     take_screenshot(driver, f"Login_Success_{creds['username']}")
 
 
-# ==============================
-# ====== TEST LOCKED USER ======
-# ==============================
+# ===========================================
+# ============ TEST LOCKED USER =============
+# ===========================================
 
 
 @allure.severity(allure.severity_level.CRITICAL)
@@ -63,9 +62,9 @@ def test_login_locked_user(login_page, driver):
         )
     
     
-# ==============================
-# = TEST INVALID PASSWORD USER =
-# ==============================
+# ===========================================
+# ======= TEST INVALID PASSWORD USER ========
+# ===========================================
     
 
 @allure.severity(allure.severity_level.CRITICAL)
@@ -93,9 +92,9 @@ def test_login_invalid_password(login_page, driver):
         )
     
 
-# ==============================
-# ====== TEST EMPTY USER =======
-# ==============================
+# ===========================================
+# ============= TEST EMPTY USER =============
+# ===========================================
 
 
 @allure.title("Connexion avec champs username et password vides")
