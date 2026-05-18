@@ -25,6 +25,11 @@ def get_credentials(user_type: str) -> dict:
     data = read_json("testdata/credentials.json")
     return data[user_type]
 
+def get_checkout(user_type: str) -> dict:
+    """Retourne les informations de paiement pour un type d'utilisateur spécifique à partir d'un fichier JSON."""
+    data = read_json("testdata/checkout.json")
+    return data[user_type]
+
 SCREENSHOT_DIR = "reports/screenshots"
 
 def take_screenshot(driver, test_name):
@@ -34,18 +39,14 @@ def take_screenshot(driver, test_name):
     Retourne le chemin du fichier.
     """
     
-    # Création du dossier de screenshots s'il n'existe pas
     os.makedirs(SCREENSHOT_DIR, exist_ok=True)
     
-    # Génération du nom de fichier
     timestamp = get_current_timestamp()
     file_name = f"{test_name}_{timestamp}.png"
     path = os.path.join(SCREENSHOT_DIR, file_name)
     
-    # Capture écran via Selenium
     driver.save_screenshot(path)
     
-    # Attache au rapport Allure
     allure.attach.file(
         path,
         name=file_name,
