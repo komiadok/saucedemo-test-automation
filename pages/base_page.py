@@ -79,6 +79,18 @@ class BasePage:
         """Récupère le texte d'un élément trouvé par le localisateur."""
         return self.wait_element_visible(locator).text
     
+    # ==============================
+    # ====== BUSINESS LOGIC ========
+    # ==============================
+    
+    def extract_price(self, price_text):
+        """Extrait un prix depuis un texte."""
+        return float(
+            price_text
+            .split("$")[1]
+            .strip()
+        )
+    
 
     
         
