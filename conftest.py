@@ -8,7 +8,7 @@ from core.driver_factory import create_driver
 from pages.login_page import LoginPage
 from pages.inventory_page import InventoryPage
 from pages.cart_page import CartPage
-
+from pages.checkout_page import CheckoutPage
 
 # ===========================================
 # ================ FIXTURES =================
@@ -35,6 +35,11 @@ def inventory_page(driver):
 def cart_page(driver):
     """Retourne une instance de la page Cart."""
     return CartPage(driver)
+
+@pytest.fixture
+def checkout_page(driver):
+    """Retourne une instance de la page Checkout."""
+    return CheckoutPage(driver)
 
 @pytest.fixture
 def logged_user(driver, login_page, inventory_page):
